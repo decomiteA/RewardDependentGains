@@ -10,7 +10,7 @@
 close all; clc; clear all;
 
 %% 0. Data loading and pre-processing
-
+% Replace the following line with the path & name of the .mat file
 M1Data = load('M1Data.mat');
 nSubjects = length(fieldnames(M1Data));
 Subjects = cell(nSubjects,1);
