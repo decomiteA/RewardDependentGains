@@ -368,10 +368,27 @@ xlim([0 4]); xticks([1 2 3]); xticklabels({'Low','Medium','High'});ylim([-0.25 0
 [hph2,pph2,~,sph2] = ttest(MatrixEMGTrial123Delph(:,1),MatrixEMGTrial123Delph(:,3),'Tail','left');
 % (mean(MatrixEMGTrial123Delph(:,1))-mean(MatrixEMGTrial123Delph(:,3)))/std([MatrixEMGTrial123Delph(:,1);MatrixEMGTrial123Delph(:,3)])
 
-subplot(4,8,[5 6 13 14]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); set(gca,'XColor','none');
-plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==4,find(TimeVector==-200):find(TimeVector==500),:),1),3),10),'r','LineWidth',3);
-plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==5,find(TimeVector==-200):find(TimeVector==500),:),1),3),10),'Color',[0 0.4 0],'LineWidth',3);
-plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==6,find(TimeVector==-200):find(TimeVector==500),:),1),3),10),'b','LineWidth',3);
+subplot(12,8,[37 38 45 46 53 54 61 62]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); set(gca,'XColor','none');
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==7,find(TimeVector==-200):find(TimeVector==500),2),1),3),10),'r','LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==8,find(TimeVector==-200):find(TimeVector==500),2),1),3),10),'Color',[0 0.4 0],'LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==9,find(TimeVector==-200):find(TimeVector==500),2),1),3),10),'b','LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==7,find(TimeVector==-200):find(TimeVector==500),1),1),3),10),'r:','LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==8,find(TimeVector==-200):find(TimeVector==500),1),1),3),10),':','Color',[0 0.4 0],'LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==9,find(TimeVector==-200):find(TimeVector==500),1),1),3),10),'b:','LineWidth',3);
+xlim([-70 220]); xticks([-150 0 50 100 180 450]); xlabel('Time [s]'); xticklabels({'-0.15','0',[],[],[],'0.45'});
+ylim([0.5 7]); yLim = ylim;
+% plot(linspace(0,0),linspace(yLim(1),yLim(end)),'k:','LineWidth',3);
+xline(50,'k:','LineWidth',3); 
+xline(100,'k:','LineWidth',3);
+xline(180,'k:','LineWidth',3);
+
+subplot(12,8,[5 6 13 14 21 22 29 30]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); set(gca,'XColor','none');
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==4,find(TimeVector==-200):find(TimeVector==500),1),1),3),10),'r','LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==5,find(TimeVector==-200):find(TimeVector==500),1),1),3),10),'Color',[0 0.4 0],'LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==6,find(TimeVector==-200):find(TimeVector==500),1),1),3),10),'b','LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==4,find(TimeVector==-200):find(TimeVector==500),2),1),3),10),'r:','LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==5,find(TimeVector==-200):find(TimeVector==500),2),1),3),10),':','Color',[0 0.4 0],'LineWidth',3);
+plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==6,find(TimeVector==-200):find(TimeVector==500),2),1),3),10),'b:','LineWidth',3);
 xlim([-70 220]); xticks([-150 0 50 100 180 450]); xlabel('Time [s]'); xticklabels({'-0.15','0',[],[],[],'0.45'});
 ylim([0.5 2]); yLim = ylim;
 % plot(linspace(0,0),linspace(yLim(1),yLim(end)),'k:','LineWidth',3);
@@ -382,14 +399,14 @@ xline(180,'k:','LineWidth',3);
 
 meandiff2 = mean(mean(TotEMG(TotVectorTP==4 | TotVectorTP==7,find(TimeVector==-200):find(TimeVector==500),:),1),3);
 
-subplot(4,8,[21 22 29 30]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none');
+subplot(12,8,[69 70 77 78 85 86 93 94]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none');
 plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==8 | TotVectorTP==5,find(TimeVector==-200):find(TimeVector==500),:),1),3) - meandiff2,10),'k-','LineWidth',3);
 plot(-200:500,movmean(mean(mean(TotEMG(TotVectorTP==9 | TotVectorTP==6,find(TimeVector==-200):find(TimeVector==500),:),1),3) - meandiff2,10),'k-.','LineWidth',3);
 ylim([-0.2 0.5]); yLim = ylim;
 xlim([-70 220]); xticks([-150 0 50 100 180 450]); xlabel('Time [s]'); xticklabels({'-0.15','0',[],[],[],'0.45'});
 xline(50,'k:','LineWidth',3); yline(0,'k:','LineWidth',3);
 xline(100,'k:','LineWidth',3);
-xline(180,'k:','LineWidth',3); 
+xline(180,'k:','LineWidth',3);  
 
 subplot(4,8,[7 8]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); set(gca,'XColor','none'); set(gca,'YAxisLocation','right');
 for ii = 1 : nSubjects
