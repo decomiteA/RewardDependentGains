@@ -3,6 +3,8 @@
 
 clc; close all;
 %% 0. Loading the data
+
+% replace the following line with the path & name of the .mat file 
 DataManip3 = load('FullSet.mat');
 nSubjects = length(fieldnames(DataManip3));
 Subjects = cell(nSubjects,1);
