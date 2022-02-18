@@ -51,7 +51,6 @@ for ii = 1 : size(MeanCoco,1)
     end
 end
 mappingTP = [1 2 4 5 7 8 10 11 13 14];
-% successrate; 
 
 %% Kinematics analysis
 mappingTP = [1 2 4 5 7 8 10 11 13 14];
@@ -89,7 +88,7 @@ for ii = 1 : nSubjects
     end
 end
 %%
-% Figure sur les proportions de switches
+% Figure on switch proportion
 id_random = zeros(nSubjects,1);
 for ii = 1 : length(id_random)
     id_random(ii) = (ProportionTarget(2,2,ii)<0.25);
@@ -152,7 +151,6 @@ p12_rsr = ranksum(reshape(ProportionTarget(1,3,id_random==0),nSubjects-2,1),resh
 p34_rsr = ranksum(reshape(ProportionTarget(3,3,id_random==0),nSubjects-2,1),reshape(ProportionTarget(4,3,id_random==0),nSubjects-2,1));
 p91_rsr = ranksum(reshape(ProportionTarget(9,3,id_random==0),nSubjects-2,1),reshape(ProportionTarget(10,3,id_random==0),nSubjects-2,1));
 
-% Test de critère pour les sujets randoms
 %% Multilinear logistic regression
 
 TotForce = zeros(nSubjects*480,1); TotCdt = mod(TotVectorTP,3);
@@ -183,10 +181,8 @@ end
 %% generalized linear model with mixed effects 
 
 
-% tablemlin_manip3 = table(TotNearTarget(id_random==0), TotForce(id_random==0),TotCdt(id_random==0),TotSubjects(id_random==0),'VariableNames',{'NearTarget','Force','Condition','Subjects'});
 [B,dev,stats] = mnrfit([TotForce(TotSubRandom~=0) TotCdt(TotSubRandom~=0),TotSubRandom(TotSubRandom~=0)],categorical(TotNearTarget(TotSubRandom~=0)),'Interactions','on');
-% Do we need to do some bootstrap here? 
-% tic;
+
 
 tableglme = table((TotNearTarget(TotSubRandom~=0)),TotForce(TotSubRandom~=0),TotCdt(TotSubRandom~=0),TotSubRandom(TotSubRandom~=0),'VariableNames',{'target','force','background','subject'});
 mrnglme = fitglme(tableglme,'target~force+background+(1|subject)','Distribution','Binomial','Link','logit','BinomialSize',length(TotNearTarget(TotSubRandom~=0)));
@@ -194,7 +190,7 @@ mrnglme = fitglme(tableglme,'target~force+background+(1|subject)','Distribution'
 
 %%
 TotNearTarget(TotNearTarget==2)=4;
-tic;
+
 
 nbtst_vec = 100:100:100; pvalbtst = zeros('like',nbtst_vec);
 for jj = 1 : length(nbtst_vec)
@@ -218,7 +214,6 @@ for ii = 1 : nbtst
 end
 [pvalbtst(jj),~] = signrank(Bright,Bleft);
 end
-toc; 
 for ii = 1 : length(TotNearTarget)
     if TotNearTarget(ii)==4
         TotNearTarget(ii) = 2;
@@ -349,8 +344,6 @@ er4.Color = [0 0 0]; er4.LineWidth=3;
 er5 = errorbar([13 14],[mean(ProportionTarget(3,3,id_random==0)), mean(ProportionTarget(4,3,id_random==0))],[std(ProportionTarget(3,3,id_random==0)), std(ProportionTarget(4,3,id_random==0))]/sqrt(length(find(id_random==0))),[std(ProportionTarget(3,3,id_random==0)), std(ProportionTarget(4,3,id_random==0))]/sqrt(length(find(id_random==0))));
 er5.Color = [0 0 0]; er5.LineWidth=3;
 
-% En haut à droite, on va mettre une représentation de la cocontraction
-% pour montrer que la force de background a l'effet désiré
 
 
 subplot(6,12,[9 10 11 12 21 22 23 24]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); set(gca,'YAxisLocation','right');
@@ -385,111 +378,11 @@ tablepeakvel = table(TotPeakVelocity((TotCdt==1 | TotCdt==2) & TotNearTarget==2)
 lmepeakvel = fitlme(tablepeakvel,'Speed~Condition+(1|Subjects)');
 
 
-%% 
-% Application of the bootstrap to the data of the reach proportion
-close all;
-m11 = bootstrp(100,@mean,ProportionTarget(1,1,id_random==0));
-m21 = bootstrp(100,@mean,ProportionTarget(2,1,id_random==0));
-m31 = bootstrp(100,@mean,ProportionTarget(3,1,id_random==0));
-m41 = bootstrp(100,@mean,ProportionTarget(4,1,id_random==0));
-m51 = bootstrp(100,@mean,ProportionTarget(5,1,id_random==0));
-m61 = bootstrp(100,@mean,ProportionTarget(6,1,id_random==0));
-m71 = bootstrp(100,@mean,ProportionTarget(7,1,id_random==0));
-m81 = bootstrp(100,@mean,ProportionTarget(8,1,id_random==0));
-m91 = bootstrp(100,@mean,ProportionTarget(9,1,id_random==0));
-m01 = bootstrp(100,@mean,ProportionTarget(10,1,id_random==0));
-
-m13 = bootstrp(100,@mean,ProportionTarget(1,3,id_random==0));
-m23 = bootstrp(100,@mean,ProportionTarget(2,3,id_random==0));
-m33 = bootstrp(100,@mean,ProportionTarget(3,3,id_random==0));
-m43 = bootstrp(100,@mean,ProportionTarget(4,3,id_random==0));
-m53 = bootstrp(100,@mean,ProportionTarget(5,3,id_random==0));
-m63 = bootstrp(100,@mean,ProportionTarget(6,3,id_random==0));
-m73 = bootstrp(100,@mean,ProportionTarget(7,3,id_random==0));
-m83 = bootstrp(100,@mean,ProportionTarget(8,3,id_random==0));
-m93 = bootstrp(100,@mean,ProportionTarget(9,3,id_random==0));
-m03 = bootstrp(100,@mean,ProportionTarget(10,3,id_random==0));
-
-[f11,x11] = ksdensity(m11);
-[f21,x21] = ksdensity(m21);
-[f31,x31] = ksdensity(m31);
-[f41,x41] = ksdensity(m41);
-[f51,x51] = ksdensity(m51);
-[f61,x61] = ksdensity(m61);
-[f71,x71] = ksdensity(m71);
-[f81,x81] = ksdensity(m81);
-[f91,x91] = ksdensity(m91);
-[f01,x01] = ksdensity(m01);
-
-[f13,x13] = ksdensity(m13);
-[f23,x23] = ksdensity(m23);
-[f33,x33] = ksdensity(m33);
-[f43,x43] = ksdensity(m43);
-[f53,x53] = ksdensity(m53);
-[f63,x63] = ksdensity(m63);
-[f73,x73] = ksdensity(m73);
-[f83,x83] = ksdensity(m83);
-[f93,x93] = ksdensity(m93);
-[f03,x03] = ksdensity(m03);
-
-figure('Name','Bootstrap analysis','units','normalized','outerposition',[0 0 1 1]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); 
-subplot(2,3,1); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('5 vs 6');
-plot(x51,f51,'r','LineWidth',3);
-plot(x61,f61,'b','LineWidth',3);
-
-subplot(2,3,2);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('9 vs 10');
-plot(x91,f91,'r','LineWidth',3);
-plot(x01,f01,'b','LineWidth',3);
-
-subplot(2,3,3);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('1 vs 2');
-plot(x11,f11,'r','LineWidth',3);
-plot(x21,f21,'b','LineWidth',3);
-
-subplot(2,3,4);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('7 vs 8');
-plot(x71,f71,'r','LineWidth',3);
-plot(x81,f81,'b','LineWidth',3);
-
-subplot(2,3,5);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('3 vs 4');
-plot(x31,f31,'r','LineWidth',3);
-plot(x41,f41,'b','LineWidth',3);
-
-% A little bit of statistics
-
-[h561,p561,~,stats561] = ttest2(m51,m61,'Tail','right');
-[h901,p901,~,stats901] = ttest2(m91,m01,'Tail','right');
-[h121,p121,~,stats121] = ttest2(m11,m21,'Tail','right');
-[h781,p781,~,stats781] = ttest2(m31,m41,'Tail','right');
-[h341,p341,~,stats341] = ttest2(m71,m81,'Tail','right');
-
-figure('Name','Bootstrap analysis','units','normalized','outerposition',[0 0 1 1]); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); 
-subplot(2,3,1); hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('5 vs 6');
-plot(x53,f53,'r','LineWidth',3);
-plot(x63,f63,'b','LineWidth',3);
-
-subplot(2,3,2);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('9 vs 10');
-plot(x93,f93,'r','LineWidth',3);
-plot(x03,f03,'b','LineWidth',3);
-
-subplot(2,3,3);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('1 vs 2');
-plot(x13,f13,'r','LineWidth',3);
-plot(x23,f23,'b','LineWidth',3);
-
-subplot(2,3,4);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('7 vs 8');
-plot(x73,f73,'r','LineWidth',3);
-plot(x83,f83,'b','LineWidth',3);
-
-subplot(2,3,5);  hold on; set(gca,'LineWidth',4); set(gca,'FontSize',18); set(gca,'Color','none'); title('3 vs 4');
-plot(x33,f33,'r','LineWidth',3);
-plot(x43,f43,'b','LineWidth',3);
 
 
 %%
-% Analyses consécutives à la réunion avec Philippe et Frédéric
+% Anova on muscle co-activation 
 
-
-% 1. Anova sur les cocontractions des muscles 
-
-% creation de la matrices pour anova
 AnovaMatrix = zeros(7200,2);
 TotSAnova = [1 2 4 5 7 9 10 12 13 14 15 16 17 18 19];
 for ii=1:length(TotSAnova)
@@ -508,8 +401,7 @@ lme_coco = fitlme(table_lme_coco,'EMG~Muscle*Background+(1|Subjects)');
 
 
 %%
-% test pairé pour comparé les trucs individuels
-
+% paired t-test individual tests
 LeftNoB = zeros(5*length(id_random(id_random==0)),1);
 LeftB = zeros(5*length(id_random(id_random==0)),1);
 RightNoB = zeros(5*length(id_random(id_random==0)),1);
@@ -524,8 +416,7 @@ for ii = 1 : length(map1)
 end
 
 %% Investigation of the reaction time 
-% The goal here is to investigate a correlation of the movement onset with
-% reaction time
+
 
 TotReactionTime = zeros(size(TotKine,1),1);
 for ii = 1 : nSubjects
@@ -535,7 +426,6 @@ end
 tableRT_cdt = table(TotReactionTime,TotCdt,TotSubjects,'VariableNames',{'RT','Condition','Subject'});
 lmeRT_cdt = fitlme(tableRT_cdt,'RT~Condition+(1|Subject)');
 
-% Let's see if there is an effect on the behavior
 
 tableRT_12 = table(TotReactionTime(TotCdt==1 & (TotNearTarget==1 | TotNearTarget==2)), TotNearTarget(TotCdt==1 & (TotNearTarget==1 | TotNearTarget==2)), TotSubjects(TotCdt==1 & (TotNearTarget==1 | TotNearTarget==2)),'VariableNames',{'RT','Target','Subject'});
 lmeRT_12 = fitlme(tableRT_12,'RT~Target+(1|Subject)');
