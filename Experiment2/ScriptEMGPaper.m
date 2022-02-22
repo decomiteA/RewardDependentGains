@@ -12,7 +12,8 @@ close all; clc; clear all;
 %% 0. Loading and preprocessing the data
 clc; clear all; close all;
 % replace the following line with the path & name of the .mat file 
-DataM2Bis = load('PilotesBis.mat');
+DataM2Bis = load('DSExpe2.mat');
+DataM2Bis = DataM2Bis.dS2;
 nSubjects = length(fieldnames(DataM2Bis));
 Subjects = cell(nSubjects,1);
 TotSubjects = zeros(480*nSubjects,1);

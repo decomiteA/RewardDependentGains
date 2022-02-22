@@ -11,7 +11,8 @@ close all; clc; clear all;
 
 %% 0. Data loading and pre-processing
 % Replace the following line with the path & name of the .mat file
-M1Data = load('M1Data.mat');
+M1Data = load('DSExpe1.mat');
+M1Data = M1Data.dS1;
 nSubjects = length(fieldnames(M1Data));
 Subjects = cell(nSubjects,1);
 for ii = 1 : nSubjects

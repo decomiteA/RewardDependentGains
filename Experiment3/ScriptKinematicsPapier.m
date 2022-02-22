@@ -5,7 +5,8 @@ clc; close all;
 %% 0. Loading the data
 
 % replace the following line with the path & name of the .mat file 
-DataManip3 = load('FullSet.mat');
+DataManip3 = load('DSExpe3.mat');
+DataManip3 = DataManip3.ds3;
 nSubjects = length(fieldnames(DataManip3));
 Subjects = cell(nSubjects,1);
 TotSubjects = zeros(nSubjects*480,1);
